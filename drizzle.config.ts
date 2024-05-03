@@ -4,7 +4,7 @@ import { env } from "@/env";
 
 export default {
   schema: "./src/server/db/schema.ts",
-  out: "./src/server/db/migrations",
+  out: "./drizzle",
   driver: "turso",
   dbCredentials: {
     url: env.DATABASE_URL,
