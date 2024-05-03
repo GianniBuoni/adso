@@ -1,13 +1,14 @@
 import { relations, sql } from "drizzle-orm";
+import { boolean } from "drizzle-orm/pg-core";
 import {
   index,
   int,
+  integer,
   primaryKey,
   sqliteTableCreator,
   text,
 } from "drizzle-orm/sqlite-core";
 import { type AdapterAccount } from "next-auth/adapters";
-
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
  * database instance for multiple projects.
@@ -32,7 +33,7 @@ export const posts = createTable(
   (example) => ({
     createdByIdIdx: index("createdById_idx").on(example.createdById),
     nameIndex: index("name_idx").on(example.name),
-  })
+  }),
 );
 
 export const users = createTable("user", {
@@ -73,7 +74,7 @@ export const accounts = createTable(
       columns: [account.provider, account.providerAccountId],
     }),
     userIdIdx: index("account_userId_idx").on(account.userId),
-  })
+  }),
 );
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
@@ -91,7 +92,7 @@ export const sessions = createTable(
   },
   (session) => ({
     userIdIdx: index("session_userId_idx").on(session.userId),
-  })
+  }),
 );
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({
@@ -107,5 +108,63 @@ export const verificationTokens = createTable(
   },
   (vt) => ({
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
-  })
+  }),
 );
+
+// MY SCHEMA DEFINITIONS BEGIN HERE!
+
+export const agencies = createTable("agencies", {
+  id: text("id", { length: 255 }).notNull().primaryKey(),
+  website: text("website", { length: 255 }),
+  shouldAvoid: integer("should_avoid", { mode: "boolean" }).default(false),
+});
+
+export const agents = createTable("agents", {
+  id: text("id", { length: 255 }).notNull().primaryKey(),
+  name: text("name", { length: 255 }).notNull(),
+  email: text("email", { length: 255 }).notNull().unique(),
+  agencyId: text("name", { length: 255 }).references(() => agencies.id),
+});
+
+export const illos = createTable("illos", {
+  id: text("id", { length: 255 }).notNull().primaryKey(),
+  name: text("name", { length: 255 }).notNull(),
+  email: text("email", { length: 255 }).notNull().unique(),
+  image: text("image", { length: 255 }),
+  haveWorkedWith: integer("have_worked_with", { mode: "boolean" })
+    .notNull()
+    .default(false),
+  pronouns: text("pronouns", { length: 255 }),
+  background: text("background", { length: 255 }),
+  agentId: text("agentId", { length: 255 }).references(() => agents.id),
+  advance: integer("advance", { mode: "number" }),
+});
+
+export const authors = createTable("authors", {
+  id: text("id", { length: 255 }).notNull().primaryKey(),
+  name: text("name", { length: 255 }).notNull(),
+  email: text("email", { length: 255 }).notNull().unique(),
+  image: text("image", { length: 255 }),
+  haveWorkedWith: integer("have_worked_with", { mode: "boolean" })
+    .notNull()
+    .default(false),
+  pronouns: text("pronouns", { length: 255 }),
+  background: text("background", { length: 255 }),
+  agentId: text("agentId", { length: 255 }).references(() => agents.id),
+  advance: integer("advance", { mode: "number" }),
+});
+
+export const editors = createTable("editors", {
+  id: text("id", { length: 255 }).notNull().primaryKey(),
+  email: text("email", { length: 255 }).notNull().unique(),
+  name: text("name", { length: 255 }).notNull(),
+});
+
+export const titles = createTable("titles", {
+  id: text("id", { length: 255 }).notNull().primaryKey(),
+  title: text("text", { length: 255 }).notNull(),
+  subtitle: text("text", { length: 255 }),
+  illoId: text("illoId", { length: 255 }).references(() => illos.id),
+  authorId: text("authorId", { length: 255 }).references(() => authors.id),
+  editorId: text("editorId", { length: 255 }).references(() => editors.id),
+});
