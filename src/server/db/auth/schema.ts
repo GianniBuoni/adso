@@ -1,61 +1,13 @@
-import { createId } from "@paralleldrive/cuid2";
+import { createTable } from "@/server/db/index";
 import { relations, sql } from "drizzle-orm";
-import { boolean } from "drizzle-orm/pg-core";
-import {
-  index,
-  int,
-  integer,
-  primaryKey,
-  sqliteTableCreator,
-  text,
-} from "drizzle-orm/sqlite-core";
+import { index, int, primaryKey, text } from "drizzle-orm/sqlite-core";
 import { type AdapterAccount } from "next-auth/adapters";
-import { title } from "process";
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
  * database instance for multiple projects.
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const createTable = sqliteTableCreator((name) => `adso_${name}`);
-
-// MY SCHEMA DEFINITIONS BEGIN HERE!
-export const editors = createTable("editors", {
-  id: text("id", { length: 255 })
-    .notNull()
-    .primaryKey()
-    .$defaultFn(() => createId()),
-  name: text("name", { length: 255 }),
-  email: text("email", { length: 255 }).notNull().unique(),
-});
-
-export const titles = createTable("titles", {
-  id: text("id", { length: 255 })
-    .notNull()
-    .primaryKey()
-    .$defaultFn(() => createId()),
-  title: text("tite", { length: 255 }).notNull(),
-  subtitle: text("subtitle", { length: 255 }),
-});
-
-export const posts = createTable(
-  "post",
-  {
-    id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-    name: text("name", { length: 256 }),
-    createdById: text("createdById", { length: 255 })
-      .notNull()
-      .references(() => users.id),
-    createdAt: int("created_at", { mode: "timestamp" })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: int("updatedAt", { mode: "timestamp" }),
-  },
-  (example) => ({
-    createdByIdIdx: index("createdById_idx").on(example.createdById),
-    nameIndex: index("name_idx").on(example.name),
-  }),
-);
 
 export const users = createTable("user", {
   id: text("id", { length: 255 }).notNull().primaryKey(),
