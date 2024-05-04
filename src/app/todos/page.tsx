@@ -1,15 +1,16 @@
 import { getData } from "@/server/db/todo/todoActions";
 import React from "react";
-import TodoHub from "../_components/TodoHub";
-import { todosType } from "@/server/db/todo/zodSchemas";
+import TodoHub from "./_components/TodoHub";
 
 const TodosPage = async () => {
   const data = await getData();
 
   return (
-    <div className="md:w-2/5">
-      <h1>To Do:</h1>
-      <TodoHub todos={data} />
+    <div className="flex justify-center">
+      <div className="md:w-2/5">
+        <h1>To Do:</h1>
+        <TodoHub todos={data} />
+      </div>
     </div>
   );
 };
