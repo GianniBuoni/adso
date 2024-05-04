@@ -1,13 +1,14 @@
-import React from "react";
 import Hamburger from "./Hamburger";
+import { navLinks } from "./NavBar";
+import NavDrawerLink from "./NavDrawerLink";
 
 const NavDrawer = () => {
   return (
-    <div className="drawer z-50 mb-1 p-3">
+    <div className="drawer z-50 mb-2 p-3">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* Page content here */}
-        <label htmlFor="my-drawer">
+        <label htmlFor="my-drawer" className="cursor-pointer">
           <Hamburger />
         </label>
       </div>
@@ -17,14 +18,16 @@ const NavDrawer = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu min-h-full w-80 bg-base-200 p-4 text-base-content">
+        <ul className="min-h-full w-60 bg-base-200 p-4 text-base-content">
+          <NavDrawerLink label="Home" href="/" />
           {/* Sidebar content here */}
-          <li>
-            <a>Sidebar Item 1</a>
-          </li>
-          <li>
-            <a>Sidebar Item 2</a>
-          </li>
+          {navLinks.map((link) => (
+            <NavDrawerLink
+              key={link.href}
+              label={link.label}
+              href={link.href}
+            />
+          ))}
         </ul>
       </div>
     </div>

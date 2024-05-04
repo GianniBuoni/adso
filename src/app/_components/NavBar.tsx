@@ -5,9 +5,6 @@ import NavDrawer from "./NavDrawer";
 import Link from "next/link";
 
 const NavBar = () => {
-  const navLinks: { label: string; href: string }[] = [
-    { label: "Todo", href: "/todo" },
-  ];
   return (
     <div className="navbar mb-5 justify-between rounded-lg bg-neutral align-middle text-base-100">
       <div>
@@ -30,3 +27,7 @@ const NavBar = () => {
 };
 
 export default NavBar;
+
+export const navLinks: { label: string; href: string }[] = [
+  { label: "Todo", href: "/todo" },
+];
