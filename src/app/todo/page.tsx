@@ -1,15 +1,18 @@
 import { getData } from "@/server/db/todo/todoActions";
 import React from "react";
 import TodoHub from "./_components/TodoHub";
+import AddTodo from "./_components/AddTodo";
+import { hubCard } from "@/styles/classNames";
 
 const TodosPage = async () => {
-  const data = await getData();
+  const todoList = await getData();
 
   return (
     <div className="flex justify-center">
-      <div className="md:w-2/5">
+      <div className={`${hubCard} md:w-2/5`}>
         <h1>To Do:</h1>
-        <TodoHub todos={data} />
+        <TodoHub todos={todoList} />
+        <AddTodo />
       </div>
     </div>
   );
