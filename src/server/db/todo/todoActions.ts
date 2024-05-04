@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/server/db/index";
-import { todos } from "@/server/db/auth/schema";
+import { todos } from "@/server/db/todo/schema";
 import { asc, eq, not } from "drizzle-orm";
 
 export const addTodo = async (id: number, text: string) => {
