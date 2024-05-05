@@ -1,8 +1,5 @@
-import React from "react";
-import Hamburger from "./Hamburger";
-import Meatballs from "./Meatballs";
-import NavDrawer from "./NavDrawer";
 import Link from "next/link";
+import NavDrawer from "./NavDrawer";
 
 const NavBar = () => {
   return (
@@ -14,7 +11,7 @@ const NavBar = () => {
         </Link>
       </div>
       <div className="px-5">
-        <ul>
+        <ul className="flex space-x-3">
           {navLinks.map((link) => (
             <li key={link.href}>
               <Link href={link.href}>{link.label}</Link>
@@ -29,5 +26,6 @@ const NavBar = () => {
 export default NavBar;
 
 export const navLinks: { label: string; href: string }[] = [
+  { label: "Titles", href: "/titles" },
   { label: "Todo", href: "/todo" },
 ];

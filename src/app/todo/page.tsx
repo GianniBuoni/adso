@@ -8,12 +8,10 @@ const TodosPage = async () => {
   const todoList = await getData();
 
   return (
-    <div className="flex justify-center">
-      <div className={`${hubCard} md:w-2/5`}>
-        <h1>To Do:</h1>
-        <TodoHub todos={todoList} />
-        <AddTodo />
-      </div>
+    <div className={`${hubCard} md:w-2/5`}>
+      <h1>To Do:</h1>
+      <TodoHub todos={todoList} />
+      <AddTodo />
     </div>
   );
 };

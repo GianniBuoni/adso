@@ -8,8 +8,7 @@ import { type Adapter } from "next-auth/adapters";
 import DiscordProvider from "next-auth/providers/discord";
 
 import { env } from "@/env";
-import { db } from "@/server/db";
-import { createTable } from "@/server/db/auth/schema";
+import { createTable, db } from "@/server/db";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`

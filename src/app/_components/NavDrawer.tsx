@@ -16,6 +16,7 @@ const NavDrawer = () => {
         type="checkbox"
         className="drawer-toggle"
         checked={isChecked}
+        readOnly
       />
       <div className="drawer-content">
         {/* Page content here */}

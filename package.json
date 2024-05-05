@@ -5,13 +5,13 @@
   "type": "module",
   "scripts": {
     "build": "next build",
-    "db:push": "drizzle-kit push:sqlite && tsx src/server/db/seed.ts",
+    "db:push": "drizzle-kit push:sqlite && tsx seeds/index.ts",
     "db:studio": "drizzle-kit studio",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
     "db:migrate": "drizzle-kit generate:sqlite && tsx src/server/db/migrate.ts",
-    "db:seed": "tsx src/server/db/seed.ts"
+    "db:seed": "tsx seeds/index.ts"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^0.7.0",
