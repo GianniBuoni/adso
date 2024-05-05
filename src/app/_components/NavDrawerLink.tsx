@@ -14,7 +14,7 @@ const NavDrawerLink = ({ label, href }: Props) => {
   const isCurrentURL = usePathname();
   const linkStyles = clsx({
     "rounded-lg transition-colors text-sm px-3 py-2": true,
-    "hover:bg-neutral hover:text-base-100": currentURL !== isCurrentURL,
+    "hover:bg-base-300": currentURL !== isCurrentURL,
     "bg-neutral text-base-100": currentURL === isCurrentURL,
   });
 

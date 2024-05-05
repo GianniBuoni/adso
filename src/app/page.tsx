@@ -8,7 +8,7 @@ const HomePage = async () => {
 
   return (
     <>
-      <div className={`${hubCard} md:w-1/5`}>
+      <div className={`${hubCard} md:w-2/6`}>
         <h1>To Do:</h1>
         <TodoHub todos={shortTodoList} />
       </div>

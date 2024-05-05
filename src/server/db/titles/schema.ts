@@ -19,6 +19,7 @@ export const titles = createTable("titles", {
     .$defaultFn(() => createId()),
   title: text("title", { length: 255 }).notNull(),
   subtitle: text("subtitle", { length: 255 }),
+  osd: integer("osd", { mode: "timestamp" }),
 });
 
 //ILLOS
