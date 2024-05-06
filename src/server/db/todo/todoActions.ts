@@ -2,7 +2,7 @@
 
 import { db } from "@/server/db/index";
 import { todos } from "@/server/db/todo/schema";
-import { asc, count, eq, not, sql } from "drizzle-orm";
+import { asc, eq, not } from "drizzle-orm";
 
 export const addTodo = async (id: number, text: string) => {
   await db.insert(todos).values({

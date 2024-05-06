@@ -3,7 +3,7 @@ import NavDrawer from "./NavDrawer";
 
 const NavBar = () => {
   return (
-    <div className="navbar mb-5 justify-between rounded-lg bg-neutral align-middle text-base-100">
+    <div className="navbar fixed z-40 mb-5 justify-between rounded-lg bg-neutral align-middle text-base-100 opacity-95 ">
       <div>
         <NavDrawer />
         <Link href={"/"} className="btn btn-ghost text-xl">

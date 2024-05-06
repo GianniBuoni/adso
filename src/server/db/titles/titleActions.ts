@@ -1,8 +1,19 @@
 "use server";
 
 import { db } from "@/server/db/index";
-import { editors, illos } from "./schema";
-import { eq } from "drizzle-orm";
+import { editors, creators, titles } from "./schema";
+import { eq, lt } from "drizzle-orm";
+
+//TITLES
+export const getAllTitles = async () => {
+  const data = await db.select().from(titles);
+  return data;
+};
+
+export const getOneTitle = async (id: string) => {
+  const data = await db.select().from(titles).where(eq(titles.id, id));
+  return data[0];
+};
 
 // EDITORS
 export const getEditors = async () => {
@@ -16,10 +27,10 @@ export const deleteEditors = async (id: string) => {
 
 // ILLOS
 export const getIllos = async () => {
-  const data = await db.select().from(illos);
+  const data = await db.select().from(creators);
   return data;
 };
 
 export const deleteIllo = async (id: string) => {
-  await db.delete(illos).where(eq(illos.id, id));
+  await db.delete(creators).where(eq(creators.id, id));
 };

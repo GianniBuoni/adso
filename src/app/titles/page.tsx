@@ -1,26 +1,44 @@
+import { getAllTitles } from "@/server/db/titles/titleActions";
 import { hubCard } from "@/styles/classNames";
-import React from "react";
+import Link from "next/link";
 
-const TitlesPage = () => {
-  const headingLabels = [
-    "Title",
-    "Current Stage",
-    "Next Deadline",
-    "With Whomst",
-    "Notes",
+const TitlesPage = async () => {
+  const titleData = await getAllTitles();
+
+  const headingLabels: { label: string; visible?: "hidden md:table-cell" }[] = [
+    { label: "Title" },
+    { label: "Current Stage", visible: "hidden md:table-cell" },
+    { label: "Next Deadline", visible: "hidden md:table-cell" },
+    { label: "With Whomst", visible: "hidden md:table-cell" },
+    { label: "Notes", visible: "hidden md:table-cell" },
   ];
   return (
     <div className="w-11/12">
       <h1>My Titles</h1>
-      <table className={`${hubCard} w-full`}>
-        <thead>
-          <tr className="flex justify-around">
-            {headingLabels.map((label) => (
-              <th key={label}>{label}</th>
+      <div className={hubCard}>
+        <table className={`table`}>
+          <thead>
+            <tr className="flex justify-around">
+              {headingLabels.map((heading) => (
+                <th key={heading.label} className={heading.visible}>
+                  {heading.label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {titleData.map((title) => (
+              <tr key={title.id}>
+                <td>
+                  <Link href={`/titles/${title.id}`} className="link-primary">
+                    {title.title}
+                  </Link>
+                </td>
+              </tr>
             ))}
-          </tr>
-        </thead>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

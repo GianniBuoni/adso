@@ -1,6 +1,10 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-import { editors, illos } from "./schema";
+import { editors, creators, titles } from "./schema";
 import z from "zod";
+
+//TITLES
+const titlesType = createSelectSchema(titles);
+export type titlesType = z.infer<typeof titlesType>;
 
 // EDITORS
 const editorsType = createSelectSchema(editors);
@@ -10,11 +14,11 @@ export const insertEditorSchema = createInsertSchema(editors, {
   email: z.string().email(),
 });
 
-// ILLOS
-const illosType = createSelectSchema(illos);
-export type illosType = z.infer<typeof illosType>;
+// CREATORS
+const creatorsType = createSelectSchema(creators);
+export type creatorsType = z.infer<typeof creatorsType>;
 
-const insertIlloSchema = createInsertSchema(illos, {
+const insertCreatorSchema = createInsertSchema(creators, {
   email: z.string().email(),
   website: z.string().url(),
 });

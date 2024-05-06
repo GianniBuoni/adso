@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en" data-theme="gianni">
       <body className={`font-sans ${inter.variable} p-2`}>
         <NavBar />
-        <main className="flex justify-center">{children}</main>
+        <main className="flex justify-center pb-10 pt-28">{children}</main>
       </body>
     </html>
   );
