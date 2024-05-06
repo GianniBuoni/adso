@@ -1,4 +1,4 @@
-import { createTable } from "@/server/db";
+import { createTable } from "@/server/db/createTable";
 import { createId } from "@paralleldrive/cuid2";
 import { relations } from "drizzle-orm";
 import { integer, real, text } from "drizzle-orm/sqlite-core";

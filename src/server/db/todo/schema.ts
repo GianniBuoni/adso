@@ -1,4 +1,4 @@
-import { createTable } from "@/server/db/index";
+import { createTable } from "@/server/db/createTable";
 import { integer, text } from "drizzle-orm/sqlite-core";
 
 export const todos = createTable("todo", {

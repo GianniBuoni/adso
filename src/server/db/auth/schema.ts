@@ -1,4 +1,4 @@
-import { createTable } from "@/server/db/index";
+import { createTable } from "@/server/db/createTable";
 import { relations, sql } from "drizzle-orm";
 import { index, int, primaryKey, text } from "drizzle-orm/sqlite-core";
 import { type AdapterAccount } from "next-auth/adapters";

@@ -2,7 +2,8 @@ import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { todos } from "./schema";
 import { z } from "zod";
 
-//Inferring Types viaZod.
+// Inferring Types viaZod
+// This is necessary for passing down the query objects as props!
 const todoType = createSelectSchema(todos);
 export type todosType = z.infer<typeof todoType>;
 

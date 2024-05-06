@@ -1,13 +1,13 @@
-import { createClient, type Client } from "@libsql/client";
-import { drizzle } from "drizzle-orm/libsql";
+import { createClient } from "@libsql/client";
 import "dotenv/config";
-import { sqliteTableCreator } from "drizzle-orm/sqlite-core";
+import { drizzle } from "drizzle-orm/libsql";
+
+//schema imports
+import * as schema from "@/server/db/schemaIndex";
 
 const client = createClient({
   url: process.env.DATABASE_URL!,
   authToken: process.env.DATABASE_AUTH_TOKEN,
 });
 
-export const db = drizzle(client);
-
-export const createTable = sqliteTableCreator((name) => `adso_${name}`);
+export const db = drizzle(client, { schema: schema });
