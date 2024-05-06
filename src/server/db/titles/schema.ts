@@ -1,6 +1,6 @@
 import { createTable } from "@/server/db/createTable";
 import { createId } from "@paralleldrive/cuid2";
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import { integer, real, text } from "drizzle-orm/sqlite-core";
 
 //TITLES
@@ -17,27 +17,32 @@ export const titles = createTable("titles", {
   price: real("price"),
   priority: text("priority", { enum: ["high", "low", "normal"] }),
   note: text("note", { length: 255 }),
-  skedId: text("sked_id", { length: 255 }).references(() => titleSchedule.id),
+  skedId: text("sked_id", { length: 255 }).references(() => titleSked.id),
 });
 
 //ONE TITLE TO ONE SKED
 export const titleRelations = relations(titles, ({ one }) => ({
-  schedule: one(titleSchedule, {
+  sked: one(titleSked, {
     fields: [titles.skedId],
-    references: [titleSchedule.id],
+    references: [titleSked.id],
   }),
 }));
 
-//TITLE SKEDS:
-export const titleSchedule = createTable("title_schedule", {
+//TITLE SKEDS
+export const titleSked = createTable("title_schedule", {
   id: text("id", { length: 255 })
     .notNull()
     .primaryKey()
     .$defaultFn(() => createId()),
-  osd: integer("osd", { mode: "timestamp" }),
+  osd: text("osd"),
 });
 
-//SKED STAGE ONE SKED to MANY STAGES
+//ONE SKED TO MANY STAGES
+export const scheduleRelations = relations(titleSked, ({ many }) => ({
+  stages: many(skedStage),
+}));
+
+//SKED STAGE
 export const skedStage = createTable("sked_stage", {
   id: text("id", { length: 255 })
     .notNull()
@@ -70,12 +75,21 @@ export const skedStage = createTable("sked_stage", {
     ],
     length: 255,
   }).notNull(),
-  value: integer("value", { mode: "timestamp" }),
-  status: integer("status", { mode: "boolean" }).notNull().default(false),
+  due: text("due"),
+  done: integer("done", { mode: "boolean" }).notNull().default(false),
   loggedInBiblio: integer("logged_in_biblio", { mode: "boolean" })
     .notNull()
     .default(false),
+  skedId: text("skedId").references(() => titleSked.id),
 });
+
+//EACH STAGE ROW BELONGS TO ONLY ONE SKED
+export const skedStageRelations = relations(skedStage, ({ one }) => ({
+  sked: one(titleSked, {
+    fields: [skedStage.skedId],
+    references: [titleSked.id],
+  }),
+}));
 
 // EDITORS: MANY EDITORS TO MANY TITLES
 export const editors = createTable("editors", {

@@ -15,3 +15,8 @@ export async function POST(response: NextResponse) {
   revalidatePath("/");
   return NextResponse.json(newTodo);
 }
+
+export async function GET(response: NextResponse) {
+  const body = await db.select().from(todos);
+  return NextResponse.json(body);
+}

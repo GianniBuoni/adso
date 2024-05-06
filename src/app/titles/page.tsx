@@ -18,7 +18,7 @@ const TitlesPage = async () => {
       <div className={hubCard}>
         <table className={`table`}>
           <thead>
-            <tr className="flex justify-around">
+            <tr>
               {headingLabels.map((heading) => (
                 <th key={heading.label} className={heading.visible}>
                   {heading.label}
@@ -37,9 +37,20 @@ const TitlesPage = async () => {
                     {title.title}
                   </Link>
                 </td>
+                <td>{title.sked?.stages[0]?.name}</td>
+                <td>{title.sked?.stages[0]?.due}</td>
+                <td></td>
+                <td>{title.note}</td>
               </tr>
             ))}
           </tbody>
+          <tfoot>
+            <tr>
+              <td className="p-5">
+                Total titles: {titleData.length.toString()}
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>
@@ -47,3 +58,4 @@ const TitlesPage = async () => {
 };
 
 export default TitlesPage;
+export const revalidate = 0;

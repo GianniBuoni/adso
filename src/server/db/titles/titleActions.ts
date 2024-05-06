@@ -6,7 +6,15 @@ import { eq, lt } from "drizzle-orm";
 
 //TITLES
 export const getAllTitles = async () => {
-  const data = await db.select().from(titles);
+  const data = await db.query.titles.findMany({
+    with: {
+      sked: {
+        with: {
+          stages: true,
+        },
+      },
+    },
+  });
   return data;
 };
 
