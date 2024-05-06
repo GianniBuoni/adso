@@ -30,7 +30,10 @@ const TitlesPage = async () => {
             {titleData.map((title) => (
               <tr key={title.id}>
                 <td>
-                  <Link href={`/titles/${title.id}`} className="link-primary">
+                  <Link
+                    href={`/titles/${title.id}`}
+                    className="link link-neutral font-semibold"
+                  >
                     {title.title}
                   </Link>
                 </td>
