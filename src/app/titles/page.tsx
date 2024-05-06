@@ -1,9 +1,9 @@
-import { getAllTitles } from "@/server/db/titles/titleActions";
+import { getTitleOverviewData } from "@/server/db/titles/titleActions";
 import { hubCard } from "@/styles/classNames";
 import Link from "next/link";
 
 const TitlesPage = async () => {
-  const titleData = await getAllTitles();
+  const titleData = await getTitleOverviewData();
 
   const headingLabels: { label: string; visible?: "hidden md:table-cell" }[] = [
     { label: "Title" },

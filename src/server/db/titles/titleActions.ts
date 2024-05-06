@@ -5,12 +5,14 @@ import { editors, creators, titles } from "./schema";
 import { eq, lt } from "drizzle-orm";
 
 //TITLES
-export const getAllTitles = async () => {
+export const getTitleOverviewData = async () => {
   const data = await db.query.titles.findMany({
     with: {
       sked: {
         with: {
-          stages: true,
+          stages: {
+            where: (stages, { eq }) => eq(stages.done, false),
+          },
         },
       },
     },
@@ -19,26 +21,8 @@ export const getAllTitles = async () => {
 };
 
 export const getOneTitle = async (id: string) => {
-  const data = await db.select().from(titles).where(eq(titles.id, id));
-  return data[0];
-};
-
-// EDITORS
-export const getEditors = async () => {
-  const data = await db.select().from(editors);
+  const data = await db.query.titles.findFirst({
+    where: (title, { eq }) => eq(title.id, id),
+  });
   return data;
-};
-
-export const deleteEditors = async (id: string) => {
-  await db.delete(editors).where(eq(editors.id, id));
-};
-
-// ILLOS
-export const getIllos = async () => {
-  const data = await db.select().from(creators);
-  return data;
-};
-
-export const deleteIllo = async (id: string) => {
-  await db.delete(creators).where(eq(creators.id, id));
 };

@@ -80,7 +80,7 @@ export const skedStage = createTable("sked_stage", {
   loggedInBiblio: integer("logged_in_biblio", { mode: "boolean" })
     .notNull()
     .default(false),
-  skedId: text("skedId").references(() => titleSked.id),
+  skedId: text("sked_id").references(() => titleSked.id),
 });
 
 //EACH STAGE ROW BELONGS TO ONLY ONE SKED
@@ -91,7 +91,7 @@ export const skedStageRelations = relations(skedStage, ({ one }) => ({
   }),
 }));
 
-// EDITORS: MANY EDITORS TO MANY TITLES
+// EDITORS
 export const editors = createTable("editors", {
   id: text("id", { length: 255 })
     .notNull()
@@ -101,7 +101,57 @@ export const editors = createTable("editors", {
   email: text("email", { length: 255 }).notNull().unique(),
 });
 
-//CREATOR: MANY CREATORS TO MANY TITLES
+// EDITORS & TITLES JOIN TABLE
+export const editorsOnTitles = createTable("editors_on_titles", {
+  id: text("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => createId()),
+  titleId: text("title_id", { length: 255 }).references(() => titles.id),
+  editorId: text("editor_id", { length: 255 }).references(() => editors.id),
+});
+
+// EDITORS ON TITLES RELATIONS
+export const editorsOnTitlesRelations = relations(
+  editorsOnTitles,
+  ({ one }) => ({
+    editors: one(editors, {
+      fields: [editorsOnTitles.editorId],
+      references: [editors.id],
+    }),
+    titles: one(titles, {
+      fields: [editorsOnTitles.titleId],
+      references: [titles.id],
+    }),
+  }),
+);
+
+// CREATORS ON TITLES JOIN TABLE
+export const creatorsOnTitles = createTable("creators_on_titles", {
+  id: text("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => createId()),
+  creatorId: text("creator_id", { length: 255 }).references(() => creators.id),
+  titleId: text("title_id", { length: 255 }).references(() => titles.id),
+});
+
+// CREATORS ON TITLES RELATIONS
+export const creatorsOnTitlesRelations = relations(
+  creatorsOnTitles,
+  ({ one }) => ({
+    creators: one(creators, {
+      fields: [creatorsOnTitles.creatorId],
+      references: [creators.id],
+    }),
+    titles: one(titles, {
+      fields: [creatorsOnTitles.titleId],
+      references: [titles.id],
+    }),
+  }),
+);
+
+//CREATORS
 export const creators = createTable("creators", {
   id: text("id", { length: 255 })
     .notNull()
@@ -118,9 +168,18 @@ export const creators = createTable("creators", {
   website: text("website", { length: 255 }),
   address: text("address", { length: 255 }),
   tel: integer("tel"),
+  agentId: text("agent_id", { length: 255 }).references(() => agents.id),
 });
 
-//AGENT: ONE AGENT TO MANY ILLUSTRATORS
+//CREATOR RELATIONS
+export const creatorRelations = relations(creators, ({ one }) => ({
+  agents: one(agents, {
+    fields: [creators.agentId],
+    references: [agents.id],
+  }),
+}));
+
+//AGENT
 export const agents = createTable("agents", {
   id: text("id", { length: 255 })
     .notNull()
@@ -131,9 +190,19 @@ export const agents = createTable("agents", {
   haveWorkedWith: integer("have_worked_with", { mode: "boolean" })
     .notNull()
     .default(false),
+  agencyId: text("agency_id", { length: 255 }).references(() => agencies.id),
 });
 
-//AGENCY: ONE AGENCY TO MANY AGENTS
+// AGENT RELATIONS
+export const agentRelations = relations(agents, ({ one, many }) => ({
+  creators: many(creators),
+  agencies: one(agencies, {
+    fields: [agents.agencyId],
+    references: [agencies.id],
+  }),
+}));
+
+//AGENCY
 export const agencies = createTable("agencies", {
   id: text("id", { length: 255 })
     .notNull()
