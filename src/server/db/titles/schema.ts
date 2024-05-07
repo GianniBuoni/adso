@@ -18,6 +18,9 @@ export const titles = createTable("titles", {
   priority: text("priority", { enum: ["high", "low", "normal"] }),
   note: text("note", { length: 255 }),
   skedId: text("sked_id", { length: 255 }).references(() => titleSked.id),
+  withWhomst: text("with_whomst", {
+    enum: ["agent", "author", "editor", "illo", "me"],
+  }),
 });
 
 //ONE TITLE TO ONE SKED
@@ -44,10 +47,7 @@ export const scheduleRelations = relations(titleSked, ({ many }) => ({
 
 //SKED STAGE
 export const skedStage = createTable("sked_stage", {
-  id: text("id", { length: 255 })
-    .notNull()
-    .primaryKey()
-    .$defaultFn(() => createId()),
+  id: integer("id").notNull().primaryKey({ autoIncrement: true }),
   name: text("name", {
     enum: [
       "Text to Design",
@@ -67,11 +67,11 @@ export const skedStage = createTable("sked_stage", {
       "Proofs Approved",
       "Advanced In",
       "Advanced Approved",
-      "Archived",
+      "Archiving",
       "Launch",
       "Conference",
       "Intermediate",
-      "Final",
+      "Final Materials",
     ],
     length: 255,
   }).notNull(),
