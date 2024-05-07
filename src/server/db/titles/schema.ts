@@ -1,6 +1,6 @@
 import { createTable } from "@/server/db/createTable";
 import { createId } from "@paralleldrive/cuid2";
-import { relations, sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import { integer, real, text } from "drizzle-orm/sqlite-core";
 
 //TITLES
@@ -101,55 +101,16 @@ export const editors = createTable("editors", {
   email: text("email", { length: 255 }).notNull().unique(),
 });
 
-// EDITORS & TITLES JOIN TABLE
-export const editorsOnTitles = createTable("editors_on_titles", {
+// TEAM & TITLES JOIN TABLE
+export const teamOnTitles = createTable("team_on_titles", {
   id: text("id", { length: 255 })
     .notNull()
     .primaryKey()
     .$defaultFn(() => createId()),
   titleId: text("title_id", { length: 255 }).references(() => titles.id),
   editorId: text("editor_id", { length: 255 }).references(() => editors.id),
-});
-
-// EDITORS ON TITLES RELATIONS
-export const editorsOnTitlesRelations = relations(
-  editorsOnTitles,
-  ({ one }) => ({
-    editors: one(editors, {
-      fields: [editorsOnTitles.editorId],
-      references: [editors.id],
-    }),
-    titles: one(titles, {
-      fields: [editorsOnTitles.titleId],
-      references: [titles.id],
-    }),
-  }),
-);
-
-// CREATORS ON TITLES JOIN TABLE
-export const creatorsOnTitles = createTable("creators_on_titles", {
-  id: text("id", { length: 255 })
-    .notNull()
-    .primaryKey()
-    .$defaultFn(() => createId()),
   creatorId: text("creator_id", { length: 255 }).references(() => creators.id),
-  titleId: text("title_id", { length: 255 }).references(() => titles.id),
 });
-
-// CREATORS ON TITLES RELATIONS
-export const creatorsOnTitlesRelations = relations(
-  creatorsOnTitles,
-  ({ one }) => ({
-    creators: one(creators, {
-      fields: [creatorsOnTitles.creatorId],
-      references: [creators.id],
-    }),
-    titles: one(titles, {
-      fields: [creatorsOnTitles.titleId],
-      references: [titles.id],
-    }),
-  }),
-);
 
 //CREATORS
 export const creators = createTable("creators", {
@@ -176,6 +137,22 @@ export const creatorRelations = relations(creators, ({ one }) => ({
   agents: one(agents, {
     fields: [creators.agentId],
     references: [agents.id],
+  }),
+}));
+
+// EDITORS ON TITLES RELATIONS
+export const editorsOnTitlesRelations = relations(teamOnTitles, ({ one }) => ({
+  titles: one(titles, {
+    fields: [teamOnTitles.titleId],
+    references: [titles.id],
+  }),
+  editors: one(editors, {
+    fields: [teamOnTitles.editorId],
+    references: [editors.id],
+  }),
+  creators: one(creators, {
+    fields: [teamOnTitles.creatorId],
+    references: [creators.id],
   }),
 }));
 

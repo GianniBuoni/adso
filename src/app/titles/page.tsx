@@ -39,7 +39,7 @@ const TitlesPage = async () => {
                 </td>
                 <td>{title.sked?.stages[0]?.name}</td>
                 <td>{title.sked?.stages[0]?.due}</td>
-                <td></td>
+                <td>{title.withWhomst}</td>
                 <td>{title.note}</td>
               </tr>
             ))}
