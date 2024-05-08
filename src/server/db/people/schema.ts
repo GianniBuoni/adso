@@ -46,7 +46,11 @@ export const authors = createTable("authors", {
   lastName: text("last_name", { length: 50 }),
   email: text("email", { length: 255 }).unique(),
   tel: integer("tel"),
-  address: text("address", { length: 255 }),
+  addressLine1: text("address_line_1", { length: 255 }),
+  addressLine2: text("address_line_2", { length: 255 }),
+  addressLine3: text("address_line_3", { length: 255 }),
+  addressLine4: text("address_line_4", { length: 255 }),
+  addressLine5: text("address_line_5", { length: 255 }),
   haveWorkedWith: integer("have_worked_with", { mode: "boolean" })
     .notNull()
     .default(false),
@@ -69,7 +73,11 @@ export const illos = createTable("illos", {
   lastName: text("last_name", { length: 50 }),
   email: text("email", { length: 255 }).unique(),
   tel: integer("tel"),
-  address: text("address", { length: 255 }),
+  addressLine1: text("address_line_1", { length: 255 }),
+  addressLine2: text("address_line_2", { length: 255 }),
+  addressLine3: text("address_line_3", { length: 255 }),
+  addressLine4: text("address_line_4", { length: 255 }),
+  addressLine5: text("address_line_5", { length: 255 }),
   haveWorkedWith: integer("have_worked_with", { mode: "boolean" })
     .notNull()
     .default(false),
