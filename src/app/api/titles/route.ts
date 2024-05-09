@@ -4,11 +4,13 @@ import { skedStages, titles, titleSkeds } from "@/server/db/schemaIndex";
 import {
   deleteTitle,
   getTitleOverviewData,
+  getUpcomingTasks,
 } from "@/server/db/titles/titleActions";
 import { eq } from "drizzle-orm/sql";
 
 export async function GET() {
-  const data = await getTitleOverviewData();
+  // const data = await getTitleOverviewData();
+  const data = await getUpcomingTasks();
   return NextResponse.json(data);
 }
 

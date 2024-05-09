@@ -23,3 +23,18 @@ export const getTitleOverviewData = () => {
 export const deleteTitle = (id: number) => {
   db.delete(titles).where(eq(titles.workRef, id));
 };
+export const getUpcomingTasks = () => {
+  const data = db
+    .select({
+      id: skedStages.id,
+      text: titles.title,
+      done: skedStages.done,
+    })
+    .from(skedStages)
+    .orderBy(skedStages.date)
+    .where(and(eq(skedStages.done, false), isNotNull(skedStages.date)))
+    .leftJoin(titleSkeds, eq(skedStages.titleSkedId, titleSkeds.id))
+    .innerJoin(titles, eq(titleSkeds.titleWorkRef, titles.workRef))
+    .limit(5);
+  return data;
+};

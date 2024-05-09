@@ -39,9 +39,11 @@ const TitlesPage = async () => {
                 {title.skeds.map((sked) =>
                   sked.stages.map((stage) => (
                     <>
-                      <td>{stage.name}</td>
-                      <td>{stage.date}</td>
-                      <td>{stage.loggedInBiblio.toString()}</td>
+                      <td className="hidden md:table-cell">{stage.name}</td>
+                      <td className="hidden md:table-cell">{stage.date}</td>
+                      <td className="hidden md:table-cell">
+                        {stage.loggedInBiblio.toString()}
+                      </td>
                     </>
                   )),
                 )}
