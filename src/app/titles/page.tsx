@@ -3,14 +3,13 @@ import { hubCard } from "@/styles/classNames";
 import Link from "next/link";
 
 const TitlesPage = async () => {
-  const titleData = await getTitleOverviewData();
+  const data = await getTitleOverviewData();
 
   const headingLabels: { label: string; visible?: "hidden md:table-cell" }[] = [
     { label: "Title" },
     { label: "Current Stage", visible: "hidden md:table-cell" },
     { label: "Next Deadline", visible: "hidden md:table-cell" },
-    { label: "With Whomst", visible: "hidden md:table-cell" },
-    { label: "Notes", visible: "hidden md:table-cell" },
+    { label: "Logged In Biblio?", visible: "hidden md:table-cell" },
   ];
   return (
     <div className="w-11/12">
@@ -27,28 +26,31 @@ const TitlesPage = async () => {
             </tr>
           </thead>
           <tbody>
-            {titleData.map((title) => (
-              <tr key={title.id}>
+            {data.map((title) => (
+              <tr key={title.workRef}>
                 <td>
                   <Link
-                    href={`/titles/${title.id}`}
+                    href={`/titles/${title.workRef}`}
                     className="link link-neutral font-semibold"
                   >
                     {title.title}
                   </Link>
                 </td>
-                <td>{title.sked?.stages[0]?.name}</td>
-                <td>{title.sked?.stages[0]?.due}</td>
-                <td>{title.withWhomst}</td>
-                <td>{title.note}</td>
+                {title.skeds.map((sked) =>
+                  sked.stages.map((stage) => (
+                    <>
+                      <td>{stage.name}</td>
+                      <td>{stage.date}</td>
+                      <td>{stage.loggedInBiblio.toString()}</td>
+                    </>
+                  )),
+                )}
               </tr>
             ))}
           </tbody>
           <tfoot>
             <tr>
-              <td className="p-5">
-                Total titles: {titleData.length.toString()}
-              </td>
+              <td className="p-5">Total titles: {data.length.toString()}</td>
             </tr>
           </tfoot>
         </table>

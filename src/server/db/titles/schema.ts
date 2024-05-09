@@ -12,7 +12,7 @@ export const titles = createTable("titles", {
   price: real("price"),
   width: integer("width"),
   height: integer("height"),
-  developmentId: text("developmentId", { length: 10 }).references(
+  developmentId: text("development_id", { length: 10 }).references(
     () => developments.id,
   ),
 });
@@ -31,7 +31,9 @@ export const titleSkeds = createTable("title_skeds", {
     .primaryKey()
     .$defaultFn(() => createId()),
   osd: text("osd", { length: 10 }),
-  titleWorkRef: integer("title_work_ref").references(() => titles.workRef),
+  titleWorkRef: integer("title_work_ref").references(() => titles.workRef, {
+    onDelete: "cascade",
+  }),
 });
 
 export const skedRelations = relations(titleSkeds, ({ one, many }) => ({
@@ -77,6 +79,7 @@ export const skedStages = createTable("sked_stages", {
     .default(false),
   titleSkedId: text("title_sked_id", { length: 24 }).references(
     () => titleSkeds.id,
+    { onDelete: "cascade" },
   ),
 });
 
